@@ -27,20 +27,24 @@ router.post("/", validateAction, (req, res) => {
 }); // Tested | Success: Working | Errors: Working
 
 router.put("/:id", validateActionId, validateAction, (req, res) => {
-    Action.update(req.gotAction.id, req.body)
-        .then(actionData => {
-            res.status(201).json({ message: "Updated Action", actionData });
-        })
-        .catch(err => {
-          res.status(500).json({ errorMessage: "Error Updating Action", err });
-        });
-});// Tested | Success: Working | Errors: Working
+  Action.update(req.gotAction.id, req.body)
+    .then(actionData => {
+      res.status(201).json({ message: "Updated Action", actionData });
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: "Error Updating Action", err });
+    });
+}); // Tested | Success: Working | Errors: Working
 
 router.delete("/:id", validateActionId, (req, res) => {
   const { id } = req.gotAction;
   Action.remove(id)
     .then(actionData => {
-      res.status(201).json({ message: `Removed Action ID ${id}` });
+      res
+        .status(201)
+        .json({
+          message: `Removed Action ID ${id}. Removed ${actionData} Record(s).`
+        });
     })
     .catch(err => {
       res.status(500).json({ errorMessage: "Error Removing Action Data", err });
