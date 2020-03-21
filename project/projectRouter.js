@@ -16,6 +16,18 @@ router.get("/:id", validateProjectId, (req, res) => {
   res.status(200).json(req.gotProject);
 }); // Tested | Success: Working | Errors: Working
 
+router.get("/:id/action", validateProjectId, (req, res) => {
+  Project.getProjectActions(req.gotProject.id)
+    .then(actionData => {
+      res.status(200).json(actionData);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ errorMessage: "Error Getting Project Actions", err });
+    });
+}); // Tested | Success: Working | Errors: Working
+
 router.post("/", validateProject, (req, res) => {
   Project.insert(req.body)
     .then(projectData => {
@@ -40,11 +52,9 @@ router.delete("/:id", validateProjectId, (req, res) => {
   const { id } = req.gotProject;
   Project.remove(id)
     .then(projectData => {
-      res
-        .status(201)
-        .json({
-          message: `Removed Project ID ${id}. Removed ${projectData} Record(s).`
-        });
+      res.status(201).json({
+        message: `Removed Project ID ${id}. Removed ${projectData} Record(s).`
+      });
     })
     .catch(err => {
       res

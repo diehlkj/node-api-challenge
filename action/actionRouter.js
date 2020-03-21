@@ -40,11 +40,9 @@ router.delete("/:id", validateActionId, (req, res) => {
   const { id } = req.gotAction;
   Action.remove(id)
     .then(actionData => {
-      res
-        .status(201)
-        .json({
-          message: `Removed Action ID ${id}. Removed ${actionData} Record(s).`
-        });
+      res.status(201).json({
+        message: `Removed Action ID ${id}. Removed ${actionData} Record(s).`
+      });
     })
     .catch(err => {
       res.status(500).json({ errorMessage: "Error Removing Action Data", err });
